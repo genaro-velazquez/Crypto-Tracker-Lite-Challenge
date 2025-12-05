@@ -1,16 +1,24 @@
-# crypto_tracker_lite
+# CryptoTracker Lite
 
-A new Flutter project.
+App Flutter para seguimiento de criptomonedas en tiempo real.
 
-## Getting Started
+## Características
+- Lista de criptomonedas con precios en vivo
+- Conexión a API CoinGecko
+- Caché en memoria
+- Arquitectura Clean Architecture + MVVM + BLoC
+- Atomic Design
 
-This project is a starting point for a Flutter application.
+## Instalación
+```bash
+flutter pub get
+flutter run -d chrome
+```
 
-A few resources to get you started if this is your first Flutter project:
+## Estructura
+- `lib/config/` - Configuración (tema, colores, constantes)
+- `lib/features/` - Features (Domain, Data, Presentation)
+- `lib/features/crypto_list/presentation/widgets/` - Atomic Design
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Autor
+Genaro Velázquez
