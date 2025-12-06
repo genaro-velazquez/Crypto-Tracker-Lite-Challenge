@@ -1,6 +1,7 @@
 
 
 import 'package:crypto_tracker_lite/features/crypto_list/domain/entities/crypto_entity.dart';
+import 'package:crypto_tracker_lite/features/crypto_list/domain/entities/market_data_entity.dart';
 
 abstract class CryptoRepository {
 
@@ -14,5 +15,7 @@ abstract class CryptoRepository {
   Future<List<CryptoEntity>> getFavorites();
 
   Future<void> toggleFavorite(CryptoEntity crypto);
+
+  Future<MarketDataEntity> getMarketChart(String cryptoId);
 
 }

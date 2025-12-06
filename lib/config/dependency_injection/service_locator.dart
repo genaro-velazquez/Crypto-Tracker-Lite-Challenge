@@ -4,7 +4,9 @@
 import 'package:crypto_tracker_lite/features/crypto_list/data/datasources/crypto_remote_datasource.dart';
 import 'package:crypto_tracker_lite/features/crypto_list/data/repositories/crypto_repository_impl.dart';
 import 'package:crypto_tracker_lite/features/crypto_list/domain/repositories/crypto_repository.dart';
+import 'package:crypto_tracker_lite/features/crypto_list/presentation/bloc/crypto_detail/crypto_detail_bloc.dart';
 import 'package:crypto_tracker_lite/features/crypto_list/presentation/bloc/crypto_list/crypto_list_bloc.dart';
+import 'package:crypto_tracker_lite/features/crypto_list/presentation/viewmodels/crypto_detail_viewmodel.dart';
 import 'package:crypto_tracker_lite/features/crypto_list/presentation/viewmodels/crypto_list_viewmodel.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
@@ -35,6 +37,14 @@ void setupServiceLocator() {
     // ViewModel (Singleton)
   getIt.registerSingleton<CryptoListViewModel>(
     CryptoListViewModel(bloc: getIt<CryptoListBloc>()),
+  );
+
+  getIt.registerFactory<CryptoDetailBloc>(
+    () => CryptoDetailBloc(repository: getIt<CryptoRepository>()),
+  );
+
+  getIt.registerFactory<CryptoDetailViewmodel>(
+    () => CryptoDetailViewmodel(bloc: getIt<CryptoDetailBloc>()),
   );
 
 }

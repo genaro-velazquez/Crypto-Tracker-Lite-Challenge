@@ -1,11 +1,9 @@
-
-
 import 'package:crypto_tracker_lite/features/crypto_list/data/datasources/crypto_remote_datasource.dart';
 import 'package:crypto_tracker_lite/features/crypto_list/domain/entities/crypto_entity.dart';
+import 'package:crypto_tracker_lite/features/crypto_list/domain/entities/market_data_entity.dart';
 import 'package:crypto_tracker_lite/features/crypto_list/domain/repositories/crypto_repository.dart';
 
-class CryptoRepositoryImpl implements CryptoRepository  {
-
+class CryptoRepositoryImpl implements CryptoRepository {
   final CryptoRemoteDataSource remoteDataSource;
 
   CryptoRepositoryImpl({required this.remoteDataSource});
@@ -63,4 +61,23 @@ class CryptoRepositoryImpl implements CryptoRepository  {
     // Más adelante lo implementaremos con SharedPreferences
   }
 
+  @override
+  Future<MarketDataEntity> getMarketChart(String cryptoId) async {
+    try {
+      final chartData = await remoteDataSource.getMarketChart(cryptoId);
+
+      // Extraer precios y fechas
+      final prices = chartData.map((point) => point[1]).toList();
+      final timestamps = chartData.map((point) => point[0].toInt()).toList();
+
+      // Convertir timestamps a DateTime
+      final dates = timestamps
+          .map((ts) => DateTime.fromMillisecondsSinceEpoch(ts.toInt()))
+          .toList();
+
+      return MarketDataEntity(prices: prices, dates: dates);
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

@@ -3,6 +3,7 @@
 import 'package:crypto_tracker_lite/config/dependency_injection/service_locator.dart';
 import 'package:crypto_tracker_lite/features/crypto_list/presentation/bloc/crypto_list/crypto_list_bloc.dart';
 import 'package:crypto_tracker_lite/features/crypto_list/presentation/bloc/crypto_list/crypto_list_state.dart';
+import 'package:crypto_tracker_lite/features/crypto_list/presentation/pages/crypto_detail_page.dart';
 import 'package:crypto_tracker_lite/features/crypto_list/presentation/viewmodels/crypto_list_viewmodel.dart';
 import 'package:crypto_tracker_lite/features/crypto_list/presentation/widgets/organisms/crypto_card.dart';
 import 'package:crypto_tracker_lite/features/crypto_list/presentation/widgets/organisms/error_display.dart';
@@ -103,11 +104,14 @@ class _CryptoListPageState extends State<CryptoListPage> {
                         changePercentage: crypto.priceChangePercentage24h,
                         isFavorite: crypto.isFavorite,
                         onTap: () {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('Seleccionaste: ${crypto.name}'),
-                            ),
-                          );
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => CryptoDetailPage(
+                                  cryptoId: crypto.id,
+                                ),
+                              ),
+                            );
                         },
                         onFavoriteTap: () {
                           viewModel.toggleFavorite(
