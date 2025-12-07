@@ -6,17 +6,26 @@ Aplicación Flutter para seguimiento de criptomonedas en tiempo real, consumiend
 
 ✅ **Lista de Criptomonedas**
 - Listado en tiempo real con precios actuales
-- Información: precio, cambio 24h, market cap
+- Información: precio, cambio 24h, porcentaje
 - Pull to refresh
 - Cargar más criptos (paginación)
 - Caché en memoria (20 segundos)
+- Sistema de favoritos con persistencia
 
 ✅ **Pantalla de Detalle**
 - Información completa de cada cripto
 - Precio actual, High/Low 24h
 - Market Cap y ranking
-- **Gráfico de 7 días** con fl_chart
+- **Gráfico de 7 días** con fl_chart (línea con área)
 - Mínimo y máximo de precio
+- Toggle de favoritos en AppBar
+
+✅ **Sistema de Favoritos**
+- Guardar/eliminar favoritos con SharedPreferences
+- Toggle funcional en lista y detalle
+- Persistencia de datos
+- Sincronización entre pantallas
+- Pantalla dedicada de favoritos
 
 ✅ **Arquitectura Profesional**
 - Clean Architecture (Domain, Data, Presentation)
@@ -24,17 +33,21 @@ Aplicación Flutter para seguimiento de criptomonedas en tiempo real, consumiend
 - BLoC para state management
 - Atomic Design (Atoms → Molecules → Organisms → Templates → Pages)
 - Inyección de dependencias con GetIt
+- FavoritesService para manejo local
 
 ✅ **Manejo de Errores**
 - Detección de error 429 (Rate Limit)
 - Pantallas de error personalizadas
 - Reintentos de carga
+- Estados de carga optimizados
 
 ✅ **Diseño**
 - Modo oscuro profesional
 - Colores: Negro, Azul, Dorado, Verde (positivo), Rojo (negativo)
 - Tipografía: Google Fonts (Roboto)
 - Responsive
+- Grid de 2x2 para estadísticas de mercado
+- Tarjetas con bordes redondeados
 
 ## 🛠️ Tecnologías Usadas
 
@@ -43,8 +56,9 @@ Aplicación Flutter para seguimiento de criptomonedas en tiempo real, consumiend
 - **API**: CoinGecko (sin key)
 - **Gráficos**: fl_chart 1.1.1
 - **Inyección de dependencias**: GetIt 7.7.0
-- **Persistencia**: SharedPreferences (próximamente)
+- **Persistencia**: SharedPreferences
 - **HTTP**: http 1.1.0
+- **Validación**: Equatable, json_serializable
 
 ## 📁 Estructura del Proyecto
 ```
@@ -58,6 +72,9 @@ lib/
 │   │   └── api_constants.dart
 │   └── dependency_injection/
 │       └── service_locator.dart
+├── data/
+│   └── services/
+│       └── favorites_service.dart
 ├── features/
 │   └── crypto_list/
 │       ├── domain/
@@ -76,13 +93,16 @@ lib/
 │       └── presentation/
 │           ├── bloc/
 │           │   ├── crypto_list/
-│           │   └── crypto_detail/
+│           │   ├── crypto_detail/
+│           │   └── favorites/
 │           ├── viewmodels/
 │           │   ├── crypto_list_viewmodel.dart
-│           │   └── crypto_detail_viewmodel.dart
+│           │   ├── crypto_detail_viewmodel.dart
+│           │   └── favorites_viewmodel.dart
 │           ├── pages/
 │           │   ├── crypto_list_page.dart
-│           │   └── crypto_detail_page.dart
+│           │   ├── crypto_detail_page.dart
+│           │   └── favorites_page.dart
 │           └── widgets/
 │               ├── atoms/
 │               ├── molecules/
@@ -128,10 +148,20 @@ flutter run
 ## 📱 Flujo de la Aplicación
 ```
 Pantalla de Lista
-    ↓ (clic en cripto)
+├─ Ver criptos en tiempo real
+├─ Click en ⭐ → Agregar/Eliminar favorito
+└─ Click en cripto → Ir a detalle
+
 Pantalla de Detalle
-    ↓ (con gráfico)
-Información completa
+├─ Ver información completa
+├─ Gráfico de 7 días
+├─ Click en ⭐ (AppBar) → Toggle favorito
+└─ Pull to refresh
+
+Pantalla de Favoritos
+├─ Ver solo criptos marcados
+├─ Click en cripto → Ir a detalle
+└─ Click en ⭐ → Eliminar de favoritos
 ```
 
 ## 🔄 Flujo de Datos
@@ -143,10 +173,10 @@ ViewModel (Lógica de presentación)
 BLoC (Manejo de estado)
   ↓
 Repository (Datos puros)
+  ├─ RemoteDataSource (Peticiones HTTP)
+  └─ FavoritesService (SharedPreferences)
   ↓
-DataSource (Peticiones HTTP)
-  ↓
-API CoinGecko
+API CoinGecko / Local Storage
 ```
 
 ## 📊 API Endpoints Utilizados
@@ -160,19 +190,28 @@ API CoinGecko
 **Tema Oscuro:**
 - Fondo Primario: #0F0F0F
 - Fondo Secundario: #1A1A1A
+- Superficie: #2D2D2D
 - Color Primario: #1E88E5 (Azul)
 - Positivo: #4CAF50 (Verde)
 - Negativo: #FF5252 (Rojo)
 - Dorado: #FFDD00
 
+**Componentes:**
+- Tarjetas redondeadas con borde
+- Grid 2x2 para estadísticas
+- Gráfico con gradiente
+- Íconos Material Design
+- Tipografía Roboto
+
 ## 🚧 Próximas Características
 
-- [ ] Sistema de favoritos con persistencia
-- [ ] Pantalla de perfil de usuario
 - [ ] Drawer de navegación
+- [ ] Pantalla de perfil de usuario
 - [ ] Búsqueda y filtrado
 - [ ] Notificaciones de cambios de precio
 - [ ] Modo claro
+- [ ] Historial de cambios
+- [ ] Comparativa entre criptos
 
 ## 👨‍💻 Autor
 
@@ -187,3 +226,4 @@ MIT License - Consulta el archivo [LICENSE](LICENSE) para más detalles.
 - [CoinGecko API](https://docs.coingecko.com/v3.0.1/reference)
 - [Flutter Documentation](https://flutter.dev/docs)
 - [BLoC Pattern](https://bloclibrary.dev/)
+- [Clean Architecture](https://resocoder.com/flutter-clean-architecture)

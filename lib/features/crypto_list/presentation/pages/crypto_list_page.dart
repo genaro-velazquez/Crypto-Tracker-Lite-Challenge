@@ -1,6 +1,5 @@
-
-
 import 'package:crypto_tracker_lite/config/dependency_injection/service_locator.dart';
+import 'package:crypto_tracker_lite/features/crypto_list/data/services/favorites_service.dart';
 import 'package:crypto_tracker_lite/features/crypto_list/presentation/bloc/crypto_list/crypto_list_bloc.dart';
 import 'package:crypto_tracker_lite/features/crypto_list/presentation/bloc/crypto_list/crypto_list_state.dart';
 import 'package:crypto_tracker_lite/features/crypto_list/presentation/pages/crypto_detail_page.dart';
@@ -21,12 +20,14 @@ class CryptoListPage extends StatefulWidget {
 
 class _CryptoListPageState extends State<CryptoListPage> {
   late CryptoListViewModel viewModel;
+  late FavoritesService favoritesService;
 
   @override
   void initState() {
     super.initState();
     // Obtener ViewModel del Service Locator
     viewModel = getIt<CryptoListViewModel>();
+    favoritesService = getIt<FavoritesService>();
     // Cargar criptos
     viewModel.loadCryptos();
   }
@@ -86,8 +87,9 @@ class _CryptoListPageState extends State<CryptoListPage> {
                         return Padding(
                           padding: const EdgeInsets.all(16),
                           child: ElevatedButton(
-                            onPressed: () =>
-                                viewModel.loadMoreCryptos(state.currentPage + 1),
+                            onPressed: () => viewModel.loadMoreCryptos(
+                              state.currentPage + 1,
+                            ),
                             child: const Text('Cargar más'),
                           ),
                         );
@@ -104,20 +106,23 @@ class _CryptoListPageState extends State<CryptoListPage> {
                         changePercentage: crypto.priceChangePercentage24h,
                         isFavorite: crypto.isFavorite,
                         onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => CryptoDetailPage(
-                                  cryptoId: crypto.id,
-                                ),
-                              ),
-                            );
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  CryptoDetailPage(cryptoId: crypto.id),
+                            ),
+                          );
                         },
-                        onFavoriteTap: () {
-                          viewModel.toggleFavorite(
+                        onFavoriteTap: () async {
+                          await viewModel.toggleFavorite(
                             crypto.id,
                             !crypto.isFavorite,
                           );
+                          // Actualizar UI
+                          if (mounted) {
+                            setState(() {});
+                          }
                         },
                       );
                     },

@@ -1,4 +1,6 @@
 import 'package:crypto_tracker_lite/config/dependency_injection/service_locator.dart';
+import 'package:crypto_tracker_lite/config/theme/app_colors.dart';
+import 'package:crypto_tracker_lite/features/crypto_list/data/services/favorites_service.dart';
 import 'package:crypto_tracker_lite/features/crypto_list/presentation/bloc/crypto_detail/crypto_detail_bloc.dart';
 import 'package:crypto_tracker_lite/features/crypto_list/presentation/bloc/crypto_detail/crypto_detail_state.dart';
 import 'package:crypto_tracker_lite/features/crypto_list/presentation/viewmodels/crypto_detail_viewmodel.dart';
@@ -21,11 +23,13 @@ class CryptoDetailPage extends StatefulWidget {
 
 class _CryptoDetailPageState extends State<CryptoDetailPage> {
   late CryptoDetailViewmodel viewModel;
+  late FavoritesService favoritesService; // ← AGREGA ESTO
 
   @override
   void initState() {
     super.initState();
     viewModel = getIt<CryptoDetailViewmodel>();
+    favoritesService = getIt<FavoritesService>(); // ← AGREGA ESTO
     viewModel.loadCryptoDetail(widget.cryptoId);
   }
 
@@ -38,6 +42,35 @@ class _CryptoDetailPageState extends State<CryptoDetailPage> {
           icon: const Icon(Icons.arrow_back),
           onPressed: () => Navigator.pop(context),
         ),
+        actions: [
+          StatefulBuilder(
+            builder: (context, setStateLocal) {
+              return IconButton(
+                icon: Icon(
+                  favoritesService.isFavorite(widget.cryptoId)
+                      ? Icons.star
+                      : Icons.star_outline,
+                  color: favoritesService.isFavorite(widget.cryptoId)
+                      ? AppColors.gold
+                      : AppColors.textSecondary,
+                ),
+                onPressed: () async {
+                  final isFav = favoritesService.isFavorite(widget.cryptoId);
+                  if (isFav) {
+                    await favoritesService.removeFavorite(widget.cryptoId);
+                  } else {
+                    await favoritesService.addFavorite(widget.cryptoId);
+                  }
+                  if (mounted) {
+                    setStateLocal(() {});
+                    setState(() {});
+                  }
+                },
+              );
+            },
+          ),
+          const SizedBox(width: 8),
+        ],
       ),
       body: BlocBuilder<CryptoDetailBloc, CryptoDetailState>(
         bloc: viewModel.bloc,
@@ -60,7 +93,6 @@ class _CryptoDetailPageState extends State<CryptoDetailPage> {
             final crypto = state.crypto;
             final chartData = state.chartData;
 
-
             return RefreshIndicator(
               onRefresh: () async {
                 viewModel.refreshCryptoDetail(widget.cryptoId);
@@ -69,27 +101,12 @@ class _CryptoDetailPageState extends State<CryptoDetailPage> {
               child: ListView(
                 children: [
                   // Header
-                  CryptoDetailHeader(
-                    crypto: crypto,
-                    onFavoriteTap: () {
-                      // Implementar favoritos más adelante
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text(
-                            'Funcionalidad de favoritos próximamente',
-                          ),
-                        ),
-                      );
-                    },
-                  ),
+                  CryptoDetailHeader(crypto: crypto),
                   // Estadísticas
                   MarketStatsSection(crypto: crypto),
                   // Gráfico
                   if (chartData != null)
-                    ChartSection(
-                      chartData: chartData,
-                      cryptoName: crypto.name,
-                    )
+                    ChartSection(chartData: chartData, cryptoName: crypto.name)
                   else
                     Container(
                       margin: const EdgeInsets.all(16),
