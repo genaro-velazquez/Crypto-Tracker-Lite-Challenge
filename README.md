@@ -276,14 +276,6 @@ Rojo (#FF5252)         → Cambios negativos
 - [ ] Exportar datos
 - [ ] Análisis técnico adicional
 
-## 📸 Screenshots
-
-*(Agrega aquí 2-4 screenshots de las principales pantallas)*
-
-## 🎬 Video Demo
-
-*(Agrega aquí un video corto de 30-60 segundos mostrando el flujo)*
-
 ## 👨‍💻 Autor
 
 **Genaro Velázquez**
