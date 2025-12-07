@@ -9,12 +9,12 @@ class ContentTemplate extends StatelessWidget {
   final bool showBackButton;
 
   const ContentTemplate({
-    Key? key,
+    super.key,
     required this.title,
     required this.body,
     this.actions,
     this.showBackButton = true,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

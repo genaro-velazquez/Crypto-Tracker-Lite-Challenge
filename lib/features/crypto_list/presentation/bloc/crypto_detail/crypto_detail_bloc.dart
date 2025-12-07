@@ -29,7 +29,6 @@ class CryptoDetailBloc extends Bloc<CryptoDetailEvent, CryptoDetailState> {
         chartData = await repository.getMarketChart(event.cryptoId);
       } catch (e) {
         // Log del error para debuggear
-        print('❌ Error cargando gráfico: $e');
         chartData = null;
       }
 

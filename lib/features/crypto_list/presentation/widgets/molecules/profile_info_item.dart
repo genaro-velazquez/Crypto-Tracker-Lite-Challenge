@@ -12,13 +12,13 @@ class ProfileInfoItem extends StatelessWidget {
   final Color iconBackgroundColor;
 
   const ProfileInfoItem({
-    Key? key,
+    super.key,
     required this.icon,
     required this.label,
     required this.value,
     required this.iconColor,
     required this.iconBackgroundColor,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -1,12 +1,3 @@
-
-
-import 'package:crypto_tracker_lite/config/theme/app_colors.dart';
-import 'package:crypto_tracker_lite/config/theme/text_styles.dart';
-import 'package:crypto_tracker_lite/features/crypto_list/presentation/pages/favorites_page.dart';
-import 'package:crypto_tracker_lite/features/crypto_list/presentation/widgets/atoms/custom_text.dart';
-import 'package:crypto_tracker_lite/features/crypto_list/presentation/widgets/molecules/info_item.dart';
-import 'package:crypto_tracker_lite/features/crypto_list/presentation/widgets/molecules/navigation_item.dart';
-import 'package:crypto_tracker_lite/features/crypto_list/presentation/widgets/molecules/stat_item.dart';
 import 'package:crypto_tracker_lite/features/crypto_list/presentation/widgets/organisms/profile_header.dart';
 import 'package:crypto_tracker_lite/features/crypto_list/presentation/widgets/organisms/profile_info_section.dart';
 import 'package:crypto_tracker_lite/features/crypto_list/presentation/widgets/templates/profile_template.dart';
@@ -14,7 +5,7 @@ import 'package:flutter/material.dart';
 
 
 class ProfilePage extends StatelessWidget {
-  const ProfilePage({Key? key}) : super(key: key);
+  const ProfilePage({super.key});
 
   @override
   Widget build(BuildContext context) {

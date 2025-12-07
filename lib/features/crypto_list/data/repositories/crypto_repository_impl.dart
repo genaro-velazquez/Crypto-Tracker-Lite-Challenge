@@ -19,13 +19,13 @@ class CryptoRepositoryImpl implements CryptoRepository {
     String currency = 'usd',
   }) async {
     try {
-      // 1. Llamar al DataSource (obtiene Models)
+      // Llamar al DataSource (obtiene Models)
       final cryptoModels = await remoteDataSource.getMarkets(
         page: page,
         currency: currency,
       );
 
-      // 2. Convertir Models → Entities
+      // Convertir Models → Entities
       final cryptoEntities = cryptoModels
           .map((model) {
           final entity = model.toEntity();
@@ -35,7 +35,7 @@ class CryptoRepositoryImpl implements CryptoRepository {
         })
         .toList();
 
-      // 3. Retornar Entities (Domain)
+      // Retornar Entities (Domain)
       return cryptoEntities;
     } catch (e) {
       rethrow;
@@ -45,13 +45,13 @@ class CryptoRepositoryImpl implements CryptoRepository {
   @override
   Future<CryptoEntity> getCryptoDetails(String cryptoId) async {
     try {
-      // 1. Llamar al DataSource (obtiene Model)
+      // Llamar al DataSource (obtiene Model)
       final cryptoModel = await remoteDataSource.getCryptoDetails(cryptoId);
 
-      // 2. Convertir Model → Entity
+      // Convertir Model → Entity
       final cryptoEntity = cryptoModel.toEntity();
 
-      // 3. Retornar Entity (Domain)
+      // Retornar Entity (Domain)
       return cryptoEntity;
     } catch (e) {
       rethrow;

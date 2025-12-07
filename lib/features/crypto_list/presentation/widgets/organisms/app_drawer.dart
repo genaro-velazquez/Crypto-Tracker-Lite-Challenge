@@ -3,7 +3,6 @@ import 'package:crypto_tracker_lite/config/theme/text_styles.dart';
 import 'package:crypto_tracker_lite/features/crypto_list/presentation/pages/favorites_page.dart';
 import 'package:crypto_tracker_lite/features/crypto_list/presentation/pages/profile_page.dart';
 import 'package:crypto_tracker_lite/features/crypto_list/presentation/widgets/atoms/custom_text.dart';
-//import 'package:crypto_tracker_lite/features/crypto_list/presentation/widgets/atoms/profile_avatar.dart';
 import 'package:crypto_tracker_lite/features/crypto_list/presentation/widgets/molecules/drawer_item.dart';
 import 'package:flutter/material.dart';
 
