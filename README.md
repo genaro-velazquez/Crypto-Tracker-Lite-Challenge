@@ -266,16 +266,6 @@ Rojo (#FF5252)         → Cambios negativos
 - **Null Safety**: 100% null-safe
 - **Type Safety**: Uso de tipos genéricos
 
-## 🚧 Próximas Características
-
-- [ ] Búsqueda y filtrado de criptos
-- [ ] Notificaciones de cambios de precio
-- [ ] Modo claro
-- [ ] Historial de cambios en gráficos
-- [ ] Comparativa entre criptos
-- [ ] Exportar datos
-- [ ] Análisis técnico adicional
-
 ## 👨‍💻 Autor
 
 **Genaro Velázquez**
