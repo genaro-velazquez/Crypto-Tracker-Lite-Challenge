@@ -27,8 +27,13 @@ class CryptoRepositoryImpl implements CryptoRepository {
 
       // 2. Convertir Models → Entities
       final cryptoEntities = cryptoModels
-          .map((model) => model.toEntity())
-          .toList();
+          .map((model) {
+          final entity = model.toEntity();
+          // Actualizar isFavorite basándose en SharedPreferences
+          final isFavorite = favoritesService.isFavorite(entity.id);
+          return entity.copyWith(isFavorite: isFavorite);
+        })
+        .toList();
 
       // 3. Retornar Entities (Domain)
       return cryptoEntities;

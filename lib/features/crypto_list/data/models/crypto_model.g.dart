@@ -18,6 +18,7 @@ CryptoModel _$CryptoModelFromJson(Map<String, dynamic> json) => CryptoModel(
       ?.toDouble(),
   marketCap: (json['market_cap'] as num?)?.toDouble(),
   marketCapRank: (json['market_cap_rank'] as num?)?.toInt(),
+  description: json['description'] as String?,
 );
 
 Map<String, dynamic> _$CryptoModelToJson(CryptoModel instance) =>
@@ -32,4 +33,5 @@ Map<String, dynamic> _$CryptoModelToJson(CryptoModel instance) =>
       'price_change_percentage_24h': instance.priceChangePercentage24h,
       'market_cap': instance.marketCap,
       'market_cap_rank': instance.marketCapRank,
+      'description': instance.description,
     };

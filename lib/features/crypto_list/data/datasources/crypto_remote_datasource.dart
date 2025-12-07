@@ -53,6 +53,9 @@ class CryptoRemoteDataSourceImpl implements CryptoRemoteDataSource {
 
       final jsonData = jsonDecode(response.body) as Map<String, dynamic>;
 
+      final descriptionMap = jsonData['description'] as Map<String, dynamic>?;
+      final description = descriptionMap?['en'] as String?;
+
       // Mapear manualmente para la respuesta de detalle
       final crypto = CryptoModel(
         id: jsonData['id'] as String? ?? '',
@@ -65,6 +68,7 @@ class CryptoRemoteDataSourceImpl implements CryptoRemoteDataSource {
         priceChangePercentage24h: _extractChange(jsonData),
         marketCap: _extractMarketCap(jsonData),
         marketCapRank: jsonData['market_cap_rank'] as int?,
+        description: description,  
       );
 
       // Guardar en cache

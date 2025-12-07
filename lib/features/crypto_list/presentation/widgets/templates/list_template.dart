@@ -7,13 +7,16 @@ class ListTemplate extends StatelessWidget {
   final Widget listView; 
   final Future<void> Function()? onRefresh; 
   final List<Widget>? actions; 
+  final Widget? drawer;  
+
 
   const ListTemplate({
     super.key,
     required this.title,
     required this.listView,
     this.onRefresh,
-    this.actions
+    this.actions,
+    this.drawer,
   });
 
   @override
@@ -21,8 +24,10 @@ class ListTemplate extends StatelessWidget {
         return Scaffold(
       appBar: AppBar(
         title: Text(title),
+        centerTitle: true,
         actions: actions,
       ),
+      drawer: drawer,  
       body: onRefresh != null
           ? RefreshIndicator(
               onRefresh: onRefresh!,

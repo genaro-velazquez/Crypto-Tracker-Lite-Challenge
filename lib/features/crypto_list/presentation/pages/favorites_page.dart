@@ -1,4 +1,5 @@
 
+
 import 'package:crypto_tracker_lite/config/dependency_injection/service_locator.dart';
 import 'package:crypto_tracker_lite/config/theme/app_colors.dart';
 import 'package:crypto_tracker_lite/config/theme/text_styles.dart';
@@ -40,10 +41,11 @@ class _FavoritesPageState extends State<FavoritesPage> {
           return Scaffold(
             appBar: AppBar(
               title: Row(
+                mainAxisSize: MainAxisSize.min,
                 children: [
+                  const Text('Favoritos'),
                   Icon(Icons.star, color: AppColors.gold, size: 28),
                   const SizedBox(width: 8),
-                  const Text('Favoritos'),
                 ],
               ),
               centerTitle: false,
@@ -57,13 +59,14 @@ class _FavoritesPageState extends State<FavoritesPage> {
           return Scaffold(
             appBar: AppBar(
               title: Row(
+                mainAxisSize: MainAxisSize.min,
                 children: [
+                  const Text('Favoritos'),
                   Icon(Icons.star, color: AppColors.gold, size: 28),
                   const SizedBox(width: 8),
-                  const Text('Favoritos'),
                 ],
               ),
-              centerTitle: false,
+              centerTitle: true,
             ),
             body: Center(
               child: Column(
@@ -90,10 +93,11 @@ class _FavoritesPageState extends State<FavoritesPage> {
           return Scaffold(
             appBar: AppBar(
               title: Row(
+                mainAxisSize: MainAxisSize.min,
                 children: [
+                  const Text('Favoritos'),
                   Icon(Icons.star, color: AppColors.gold, size: 28),
                   const SizedBox(width: 8),
-                  const Text('Favoritos'),
                 ],
               ),
               centerTitle: false,

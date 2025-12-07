@@ -23,6 +23,7 @@ class CryptoModel {
   final double? marketCap;
   @JsonKey(name: 'market_cap_rank')
   final int? marketCapRank;
+  final String? description;
 
   CryptoModel({
     required this.id,
@@ -34,7 +35,8 @@ class CryptoModel {
     this.low24h,
     this.priceChangePercentage24h,
     this.marketCap,
-    this.marketCapRank
+    this.marketCapRank,
+    this.description, 
   });
 
   factory CryptoModel.fromJson(Map<String, dynamic> json) => _$CryptoModelFromJson(json);
@@ -54,6 +56,7 @@ class CryptoModel {
       priceChangePercentage24h: priceChangePercentage24h ?? 0.0,
       marketCap: marketCap,
       marketCapRank: marketCapRank,
+      description: description,
       isFavorite: false,
     );
   }

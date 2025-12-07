@@ -4,6 +4,7 @@ import 'package:crypto_tracker_lite/features/crypto_list/presentation/bloc/crypt
 import 'package:crypto_tracker_lite/features/crypto_list/presentation/bloc/crypto_list/crypto_list_state.dart';
 import 'package:crypto_tracker_lite/features/crypto_list/presentation/pages/crypto_detail_page.dart';
 import 'package:crypto_tracker_lite/features/crypto_list/presentation/viewmodels/crypto_list_viewmodel.dart';
+import 'package:crypto_tracker_lite/features/crypto_list/presentation/widgets/organisms/app_drawer.dart';
 import 'package:crypto_tracker_lite/features/crypto_list/presentation/widgets/organisms/crypto_card.dart';
 import 'package:crypto_tracker_lite/features/crypto_list/presentation/widgets/organisms/error_display.dart';
 import 'package:crypto_tracker_lite/features/crypto_list/presentation/widgets/organisms/loading_display.dart';
@@ -41,6 +42,7 @@ class _CryptoListPageState extends State<CryptoListPage> {
         if (state is CryptoListLoading) {
           return Scaffold(
             appBar: AppBar(title: const Text('CryptoTracker Lite')),
+            drawer: const AppDrawer(),  
             body: const LoadingDisplay(),
           );
         }
@@ -49,6 +51,7 @@ class _CryptoListPageState extends State<CryptoListPage> {
         if (state is CryptoListRateLimitError) {
           return Scaffold(
             appBar: AppBar(title: const Text('CryptoTracker Lite')),
+            drawer: const AppDrawer(),
             body: ErrorDisplay(
               message: state.message,
               isRateLimit: true,
@@ -61,6 +64,7 @@ class _CryptoListPageState extends State<CryptoListPage> {
         if (state is CryptoListError) {
           return Scaffold(
             appBar: AppBar(title: const Text('CryptoTracker Lite')),
+            drawer: const AppDrawer(),  
             body: ErrorDisplay(
               message: state.message,
               onRetry: () => viewModel.loadCryptos(),
@@ -74,6 +78,11 @@ class _CryptoListPageState extends State<CryptoListPage> {
 
           return ListTemplate(
             title: 'CryptoTracker Lite',
+            drawer: AppDrawer(
+              onFavoritesReturn: (){
+                viewModel.loadCryptos();
+              },
+            ),
             listView: cryptos.isEmpty
                 ? ErrorDisplay(
                     message: 'No hay criptomonedas disponibles',
@@ -112,7 +121,10 @@ class _CryptoListPageState extends State<CryptoListPage> {
                               builder: (context) =>
                                   CryptoDetailPage(cryptoId: crypto.id),
                             ),
-                          );
+                          ).then((_){
+                              // Recargar lista cuando regresa
+                              viewModel.loadCryptos();
+                          });
                         },
                         onFavoriteTap: () async {
                           await viewModel.toggleFavorite(
@@ -137,6 +149,7 @@ class _CryptoListPageState extends State<CryptoListPage> {
         // Estado: Inicial (por defecto)
         return Scaffold(
           appBar: AppBar(title: const Text('CryptoTracker Lite')),
+          drawer: const AppDrawer(),  
           body: const LoadingDisplay(),
         );
       },

@@ -1,6 +1,6 @@
 # CryptoTracker Lite 🚀
 
-Aplicación Flutter para seguimiento de criptomonedas en tiempo real, consumiendo datos de la API CoinGecko sin autenticación.
+Aplicación Flutter para seguimiento de criptomonedas en tiempo real, consumiendo datos de la API CoinGecko sin autenticación. Proyecto completo con Clean Architecture, BLoC, MVVM y Atomic Design.
 
 ## 📋 Características Implementadas
 
@@ -11,21 +11,38 @@ Aplicación Flutter para seguimiento de criptomonedas en tiempo real, consumiend
 - Cargar más criptos (paginación)
 - Caché en memoria (20 segundos)
 - Sistema de favoritos con persistencia
+- Sincronización de estado entre pantallas
 
 ✅ **Pantalla de Detalle**
 - Información completa de cada cripto
 - Precio actual, High/Low 24h
 - Market Cap y ranking
-- **Gráfico de 7 días** con fl_chart (línea con área)
+- **Gráfico de 7 días** con fl_chart (línea con área sombreada)
 - Mínimo y máximo de precio
 - Toggle de favoritos en AppBar
+- **Descripción completa de la moneda** (obtenida de API)
+- Pull to refresh
 
-✅ **Sistema de Favoritos**
+✅ **Sistema de Favoritos** 🤍
 - Guardar/eliminar favoritos con SharedPreferences
 - Toggle funcional en lista y detalle
-- Persistencia de datos
-- Sincronización entre pantallas
+- Persistencia de datos entre sesiones
+- Sincronización automática entre todas las pantallas
 - Pantalla dedicada de favoritos
+- Recargar automáticamente al regresar de otras pantallas
+
+✅ **Drawer de Navegación** ☰
+- Menú lateral con avatar, nombre y email
+- Acceso rápido a Favoritos y Perfil
+- Items con iconos coloreados y bordes personalizados
+- Navegación fluida entre secciones
+
+✅ **Pantalla de Perfil** 👤
+- Avatar con borde dorado
+- Información de cuenta (Nombre, Email)
+- Detalles adicionales (Ubicación, Teléfono)
+- Estadísticas de usuario
+- Acceso desde el Drawer
 
 ✅ **Arquitectura Profesional**
 - Clean Architecture (Domain, Data, Presentation)
@@ -40,29 +57,36 @@ Aplicación Flutter para seguimiento de criptomonedas en tiempo real, consumiend
 - Pantallas de error personalizadas
 - Reintentos de carga
 - Estados de carga optimizados
+- Mensajes de error amigables
 
-✅ **Diseño**
-- Modo oscuro profesional
+✅ **Diseño Profesional**
+- Modo oscuro completo
 - Colores: Negro, Azul, Dorado, Verde (positivo), Rojo (negativo)
 - Tipografía: Google Fonts (Roboto)
 - Responsive
 - Grid de 2x2 para estadísticas de mercado
 - Tarjetas con bordes redondeados
+- Elementos con transiciones suaves
+- Avatares y componentes visuales atractivos
 
 ## 🛠️ Tecnologías Usadas
 
 - **Framework**: Flutter 3.38.3
 - **State Management**: BLoC 8.1.4
-- **API**: CoinGecko (sin key)
+- **API**: CoinGecko REST API (sin autenticación)
 - **Gráficos**: fl_chart 1.1.1
 - **Inyección de dependencias**: GetIt 7.7.0
-- **Persistencia**: SharedPreferences
-- **HTTP**: http 1.1.0
-- **Validación**: Equatable, json_serializable
+- **Persistencia Local**: SharedPreferences
+- **Networking**: http 1.1.0
+- **Serialización JSON**: json_serializable, build_runner
+- **Utilidades**: Equatable
 
 ## 📁 Estructura del Proyecto
 ```
 lib/
+├── assets/
+│   └── images/
+│       └── profile.jpg
 ├── config/
 │   ├── theme/
 │   │   ├── app_colors.dart
@@ -102,7 +126,8 @@ lib/
 │           ├── pages/
 │           │   ├── crypto_list_page.dart
 │           │   ├── crypto_detail_page.dart
-│           │   └── favorites_page.dart
+│           │   ├── favorites_page.dart
+│           │   └── profile_page.dart
 │           └── widgets/
 │               ├── atoms/
 │               ├── molecules/
@@ -130,39 +155,60 @@ cd Crypto-Tracker-Lite-Challenge
 flutter pub get
 ```
 
-3. **Generar archivos JSON (si es necesario)**
+3. **Generar archivos JSON**
 ```bash
 dart run build_runner build
 ```
 
-4. **Ejecutar en Chrome**
+4. **Ejecutar en Chrome (Web)**
 ```bash
 flutter run -d chrome
 ```
 
-5. **Ejecutar en Android/iOS**
+5. **Ejecutar en Android**
 ```bash
 flutter run
 ```
 
-## 📱 Flujo de la Aplicación
+6. **Ejecutar en iOS**
+```bash
+flutter run -d ios
 ```
-Pantalla de Lista
-├─ Ver criptos en tiempo real
-├─ Click en ⭐ → Agregar/Eliminar favorito
-└─ Click en cripto → Ir a detalle
 
-Pantalla de Detalle
-├─ Ver información completa
-├─ Gráfico de 7 días
-├─ Click en ⭐ (AppBar) → Toggle favorito
-└─ Pull to refresh
+## 📱 Guía de Uso
 
-Pantalla de Favoritos
-├─ Ver solo criptos marcados
-├─ Click en cripto → Ir a detalle
-└─ Click en ⭐ → Eliminar de favoritos
-```
+### 1. Pantalla de Lista
+- **Ver criptos**: La app carga automáticamente las criptomonedas
+- **Marcar favorito**: Click en la estrella (⭐) para guardar
+- **Ver detalle**: Click en la tarjeta de la cripto
+- **Cargar más**: Scroll hacia abajo y click en "Cargar más"
+- **Refrescar**: Pull to refresh (arrastra hacia abajo)
+
+### 2. Pantalla de Detalle
+- **Información completa**: Precio, High/Low, Market Cap
+- **Gráfico de 7 días**: Visualiza la tendencia de precio
+- **Descripción**: Lee detalles sobre la criptomoneda
+- **Favorito**: Click en estrella para agregar/eliminar
+- **Refrescar**: Pull to refresh
+
+### 3. Pantalla de Favoritos
+- **Ver favoritos**: Solo las criptos marcadas
+- **Eliminar**: Click en la estrella para quitar
+- **Ir a detalle**: Click en la tarjeta
+- **Sincronización**: Se actualiza automáticamente
+
+### 4. Drawer de Navegación (☰)
+- **Inicio**: Volver a lista
+- **Favoritos**: Ir a pantalla de favoritos
+- **Perfil**: Ver información de usuario
+- **Configuración**: Acceso rápido
+- **Acerca de**: Información de la app
+
+### 5. Pantalla de Perfil
+- **Avatar**: Foto de perfil
+- **Información de cuenta**: Nombre y email
+- **Datos personales**: Ubicación, teléfono
+- **Estadísticas**: Criptos vistas, favoritos, días activo
 
 ## 🔄 Flujo de Datos
 ```
@@ -173,45 +219,70 @@ ViewModel (Lógica de presentación)
 BLoC (Manejo de estado)
   ↓
 Repository (Datos puros)
-  ├─ RemoteDataSource (Peticiones HTTP)
-  └─ FavoritesService (SharedPreferences)
+  ├─ RemoteDataSource (Peticiones HTTP a CoinGecko)
+  └─ FavoritesService (Almacenamiento local)
   ↓
-API CoinGecko / Local Storage
+API CoinGecko / SharedPreferences
 ```
 
 ## 📊 API Endpoints Utilizados
 
-- `GET /coins/markets` - Lista de criptomonedas
-- `GET /coins/{id}` - Detalles de una cripto
-- `GET /coins/{id}/market_chart` - Gráfico de 7 días
+- `GET /coins/markets` - Lista de criptomonedas (250 por página)
+- `GET /coins/{id}` - Detalles completos de una cripto
+- `GET /coins/{id}/market_chart` - Datos históricos de 7 días
 
-## 🎨 Diseño
+**Parámetros:**
+- `vs_currency=usd` - Precios en dólares
+- `order=market_cap_desc` - Ordenado por capitalización
+- `per_page=250` - Máximo de resultados
 
-**Tema Oscuro:**
-- Fondo Primario: #0F0F0F
-- Fondo Secundario: #1A1A1A
-- Superficie: #2D2D2D
-- Color Primario: #1E88E5 (Azul)
-- Positivo: #4CAF50 (Verde)
-- Negativo: #FF5252 (Rojo)
-- Dorado: #FFDD00
+## 🎨 Diseño Visual
 
-**Componentes:**
-- Tarjetas redondeadas con borde
-- Grid 2x2 para estadísticas
-- Gráfico con gradiente
-- Íconos Material Design
-- Tipografía Roboto
+### Tema Oscuro
+```
+Primario (#0F0F0F)     → Fondo principal
+Secundario (#1A1A1A)   → Fondo alternativo
+Superficie (#2D2D2D)   → Tarjetas y componentes
+Azul (#1E88E5)         → Color principal
+Dorado (#FFDD00)       → Favoritos y destacados
+Verde (#4CAF50)        → Cambios positivos
+Rojo (#FF5252)         → Cambios negativos
+```
+
+### Componentes
+- **Tarjetas**: Bordes redondeados (12-16px)
+- **Botones**: Esquinas redondeadas con efecto
+- **Íconos**: Material Design 2
+- **Fuente**: Roboto (Google Fonts)
+- **Espaciado**: Consistente y responsive
+
+## ⚡ Características Técnicas
+
+- **Caché en Memoria**: 20 segundos para evitar sobrecarga
+- **Rate Limit Handling**: Detección y mensaje de error 429
+- **Sincronización de Estado**: Favoritos se actualizan en todas las pantallas
+- **Pull to Refresh**: Recarga de datos en todas las vistas
+- **Error Handling**: Pantallas personalizadas para errores
+- **Null Safety**: 100% null-safe
+- **Type Safety**: Uso de tipos genéricos
 
 ## 🚧 Próximas Características
 
-- [ ] Drawer de navegación
-- [ ] Pantalla de perfil de usuario
-- [ ] Búsqueda y filtrado
+- [ ] Búsqueda y filtrado de criptos
 - [ ] Notificaciones de cambios de precio
 - [ ] Modo claro
-- [ ] Historial de cambios
+- [ ] Historial de cambios en gráficos
 - [ ] Comparativa entre criptos
+- [ ] Exportar datos
+- [ ] Análisis técnico adicional
+
+## 📸 Screenshots
+
+*(Agrega aquí 2-4 screenshots de las principales pantallas)*
+
+## 🎬 Video Demo
+
+*(Agrega aquí un video corto de 30-60 segundos mostrando el flujo)*
 
 ## 👨‍💻 Autor
 
@@ -221,9 +292,29 @@ API CoinGecko / Local Storage
 
 MIT License - Consulta el archivo [LICENSE](LICENSE) para más detalles.
 
-## 🔗 Links
+## 🔗 Links Útiles
 
-- [CoinGecko API](https://docs.coingecko.com/v3.0.1/reference)
+- [CoinGecko API Documentation](https://docs.coingecko.com/v3.0.1/reference)
 - [Flutter Documentation](https://flutter.dev/docs)
-- [BLoC Pattern](https://bloclibrary.dev/)
+- [BLoC Pattern Guide](https://bloclibrary.dev/)
 - [Clean Architecture](https://resocoder.com/flutter-clean-architecture)
+- [Atomic Design](https://atomicdesign.bradfrost.com/)
+
+## 📝 Notas de Desarrollo
+
+### Decisiones Arquitectónicas
+- **BLoC + MVVM**: Separación clara de responsabilidades
+- **Atomic Design**: Componentes reutilizables y escalables
+- **Repository Pattern**: Abstracción de fuentes de datos
+- **Service Locator**: Inyección de dependencias centralizada
+
+### Optimizaciones
+- Caché en memoria para reducir peticiones
+- Lazy loading de criptos (paginación)
+- Widget rebuilds optimizados con BLoC
+- Uso de Equatable para comparaciones eficientes
+
+### Testing (Recomendado para futuro)
+- Unit tests para ViewModels
+- Widget tests para Pages
+- Integration tests para flujos completos

@@ -15,6 +15,7 @@ class CryptoEntity extends Equatable{
   final double priceChangePercentage24h; 
   final double? marketCap; 
   final int? marketCapRank; 
+  final String? description; 
   final bool isFavorite; 
 
   const CryptoEntity({
@@ -28,6 +29,7 @@ class CryptoEntity extends Equatable{
     required this.priceChangePercentage24h,
     this.marketCap,
     this.marketCapRank, 
+    this.description,
     this.isFavorite = false
   });
   
@@ -46,6 +48,7 @@ class CryptoEntity extends Equatable{
     double? priceChangePercentage24h,
     double? marketCap,
     int? marketCapRank,
+    String? description,
     bool? isFavorite
   }){
     return CryptoEntity(
@@ -59,6 +62,7 @@ class CryptoEntity extends Equatable{
       priceChangePercentage24h: priceChangePercentage24h ?? this.priceChangePercentage24h,
       marketCap: marketCap ?? this.marketCap,
       marketCapRank: marketCapRank ?? this.marketCapRank,
+      description: description ?? this.description,
       isFavorite: isFavorite ?? this.isFavorite,
     );
   }
@@ -76,6 +80,7 @@ class CryptoEntity extends Equatable{
     priceChangePercentage24h,
     marketCap,
     marketCapRank,
+    description,
     isFavorite,
   ];
 
